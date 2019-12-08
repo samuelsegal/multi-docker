@@ -1,0 +1,25 @@
+sudo: required
+services:
+    - docker
+
+# NOTE: We are aonly demonstrating test for the react client application
+# We could add similar steps for other projects
+before_install:
+    - docker build -t samuelsegal/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true samuelsegal/react-test yarn test
+
+after_success:
+    # Build images
+    - docker build -t samuelsegal/multi-client ./client
+    - docker build -t samuelsegal/multi-gninx ./nginx
+    - docker build -t samuelsegal/multi-server ./server
+    - docker build -t samuelsegal/multi-worker ./worker
+    # Login to docker cli
+    - echo "$DOCKERPASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # Take All Images and push to docker hub
+    - docker push samuelsegal/multi-client
+    - docker push samuelsegal/multi-nginx
+    - docker push samuelsegal/multi-server
+    - docker push samuelsegal/multi-worker
