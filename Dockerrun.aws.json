@@ -2,6 +2,13 @@
 	"AWSEBDockerrunVersion": 2,
 	"containerDefinitions": [
 		{
+			"name": "client",
+			"image": "samuelsegal/multi-client",
+			"hostname": "client",
+			"essential": false,
+			"memory": 128
+		},
+		{
 			"name": "nginx",
 			"image": "samuelsegal/multi-nginx",
 			"hostname": "nginx",
