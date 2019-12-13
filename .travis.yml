@@ -13,7 +13,7 @@ script:
 after_success:
     # Build images
     - docker build -t samuelsegal/multi-client ./client
-    - docker build -t samuelsegal/multi-gninx ./nginx
+    - docker build -t samuelsegal/multi-nginx ./nginx
     - docker build -t samuelsegal/multi-server ./server
     - docker build -t samuelsegal/multi-worker ./worker
     # Login to docker cli
